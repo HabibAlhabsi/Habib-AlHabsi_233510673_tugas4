@@ -1,54 +1,74 @@
 <template>
-  <div class="h-screen flex flex-col bg-gradient-to-br from-blue-50 to-white">
-    <!-- Bagian Tambah Post -->
-    <div class="p-8 shadow-md bg-white">
-      <h2 class="text-3xl font-extrabold text-blue-800 mb-6 tracking-tight">Tambah Post</h2>
-      <form @submit.prevent="addPost" class="flex flex-col md:flex-row gap-4">
-        <input
-          v-model="newPost.title"
-          placeholder="Judul"
-          required
-          class="flex-1 px-4 py-2 rounded-lg border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-        />
-        <input
-          v-model="newPost.body"
-          placeholder="Konten"
-          required
-          class="flex-1 px-4 py-2 rounded-lg border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-        />
-        <button
-          type="submit"
-          class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 hover:scale-105 transition"
-        >
-          Kirim
-        </button>
-      </form>
-    </div>
+  <div class="min-h-screen bg-black text-green-400 font-mono p-6">
+    <!-- Header -->
+    <header class="mb-6 border-b border-green-500 pb-4">
+      <h2 class="text-2xl uppercase tracking-widest">Tambah Post</h2>
+    </header>
 
-    <!-- Bagian Daftar Post -->
-    <div class="flex-1 overflow-y-auto p-8">
-      <h2 class="text-3xl font-extrabold text-blue-800 mb-6 tracking-tight">Daftar Post</h2>
-      <ul class="space-y-4">
-        <li
-          v-for="post in posts"
-          :key="post.id"
-          class="flex justify-between items-start bg-white border border-blue-100 hover:shadow-lg hover:scale-[1.01] transition duration-300 rounded-xl p-5"
-        >
-          <div class="text-gray-700 space-y-1">
-            <h3 class="text-xl font-semibold text-blue-700">{{ post.title }}</h3>
-            <p class="text-gray-600">{{ post.body }}</p>
+    <!-- Grid Layout -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Form -->
+      <section class="col-span-1 md:col-span-1 border border-green-500 p-4">
+        <form @submit.prevent="addPost" class="space-y-4">
+          <div>
+            <label class="block text-sm">Judul:</label>
+            <input
+              v-model="newPost.title"
+              type="text"
+              placeholder="> judul post"
+              class="w-full bg-black border border-green-400 text-green-300 p-2 focus:outline-none"
+              required
+            />
           </div>
+
+          <div>
+            <label class="block text-sm">Konten:</label>
+            <textarea
+              v-model="newPost.body"
+              rows="4"
+              placeholder="> isi konten"
+              class="w-full bg-black border border-green-400 text-green-300 p-2 focus:outline-none"
+              required
+            ></textarea>
+          </div>
+
           <button
-            @click="deletePost(post.id)"
-            class="bg-red-500 text-white px-4 py-2 h-fit rounded-lg hover:bg-red-600 hover:scale-105 transition"
+            type="submit"
+            class="w-full bg-green-700 text-black py-2 uppercase font-bold hover:bg-green-500 transition"
           >
-            Hapus
+            Kirim
           </button>
-        </li>
-      </ul>
+        </form>
+      </section>
+
+      <!-- Post List -->
+      <section class="col-span-1 md:col-span-2 border border-green-500 p-4 overflow-y-auto max-h-[70vh]">
+        <h2 class="text-2xl mb-4 uppercase tracking-widest border-b border-green-600 pb-2">Daftar Post</h2>
+        <ul class="space-y-4">
+          <li
+            v-for="post in posts"
+            :key="post.id"
+            class="border border-green-400 p-3"
+          >
+            <div class="flex justify-between items-start">
+              <div>
+                <h3 class="text-lg font-bold text-green-300">• {{ post.title }}</h3>
+                <p class="text-sm text-green-400">{{ post.body }}</p>
+              </div>
+              <button
+                @click="deletePost(post.id)"
+                class="text-red-400 border border-red-600 px-2 py-1 hover:bg-red-800 hover:text-white transition"
+              >
+                x
+              </button>
+            </div>
+          </li>
+        </ul>
+      </section>
     </div>
   </div>
 </template>
+
 
 <script>
 import axios from 'axios';
